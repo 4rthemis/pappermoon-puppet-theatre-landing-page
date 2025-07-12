@@ -6,7 +6,8 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "../../ui/navigation-menu";
-import { siteData } from "../../../data/data";
+import { LanguageSelector } from "../../atoms/LanguageSelector";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 export const Navigation = ({ 
   currentPage = "about", 
@@ -14,8 +15,23 @@ export const Navigation = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false);
+  const { t } = useTranslation();
 
-  const navItems = siteData.navigation.menuItems.map(item => ({
+  const navItems = [
+    { label: t('home'), key: "home" },
+    { label: t('aboutUs'), key: "about" },
+    { label: t('performance'), key: "performance" },
+    {
+      label: t('programs'),
+      key: "programs",
+      hasDropdown: true,
+      subItems: [
+        { label: t('puppetParty'), key: "Puppet Party" },
+        { label: t('workshops'), key: "workshops" },
+        { label: t('educationalTours'), key: "educational-tours" },
+      ]
+    },
+  ].map(item => ({
     ...item,
     active: currentPage === item.key || 
             (item.hasDropdown && item.subItems?.some(sub => sub.key === currentPage))
@@ -30,9 +46,9 @@ export const Navigation = ({
   return (
     <nav className="flex items-center gap-6">
       {/* Desktop Navigation */}
-      <div className="hidden lg:flex items-center gap-6">
+      <div className="hidden lg:flex items-center gap-4">
         <NavigationMenu className="max-w-none">
-          <NavigationMenuList className="flex items-center gap-10">
+          <NavigationMenuList className="flex items-center gap-8">
             {navItems.map((item) => (
               <NavigationMenuItem key={item.key} className="relative">
                 <div
@@ -90,9 +106,10 @@ export const Navigation = ({
           </NavigationMenuList>
         </NavigationMenu>
 
+        <LanguageSelector />
         <Button className="h-[52px] px-6 py-4 bg-[#f2c54a] text-black rounded-[100px] hover:bg-[#f2c54a]/90 transition-colors">
           <span className="font-medium text-lg tracking-[-0.36px]">
-            Book Ticket
+            {t('bookTicket')}
           </span>
         </Button>
       </div>
@@ -160,9 +177,13 @@ export const Navigation = ({
               </div>
             ))}
             
+            <div className="pt-4 border-t border-gray-200">
+              <LanguageSelector />
+            </div>
+            
             <Button className="w-full h-[52px] px-6 py-4 bg-[#f2c54a] text-black rounded-[100px] hover:bg-[#f2c54a]/90 transition-colors mt-4">
               <span className="font-medium text-lg tracking-[-0.36px]">
-                Book Ticket
+                {t('bookTicket')}
               </span>
             </Button>
           </div>

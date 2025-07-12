@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Header } from "./components/organisms/Header";
 import { Footer } from "./components/organisms/Footer";
 import { AboutUs } from "./pages/AboutUs";
+import { LanguageProvider } from "./context/LanguageContext";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("about");
@@ -30,13 +31,15 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fffcf5] flex flex-col">
-      <Header currentPage={currentPage} onNavigate={handleNavigation} />
-      <main className="flex-1">
-        {renderCurrentPage()}
-      </main>
-      <Footer />
-    </div>
+    <LanguageProvider>
+      <div className="min-h-screen bg-[#fffcf5] flex flex-col">
+        <Header currentPage={currentPage} onNavigate={handleNavigation} />
+        <main className="flex-1">
+          {renderCurrentPage()}
+        </main>
+        <Footer />
+      </div>
+    </LanguageProvider>
   );
 }
 
